@@ -49,7 +49,7 @@ public class PDFConverter {
 						
 			do {
 					
-				System.out.print("\nInsira o caminho onde irá salvar o arquivo .txt: ");
+				System.out.print("\nInsira o caminho onde quer salvar o arquivo .txt: ");
 					
 				txtPath = scanner.nextLine().trim();
 					
