@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 import org.apache.pdfbox.io.RandomAccessFile;
@@ -38,7 +39,11 @@ public class PDFConverter {
 				System.out.print("\nInsira o caminho do arquivo .pdf: ");
 
 				pdfPath = scanner.nextLine().trim();
-
+				
+				String pdfPathToUtf8 = new String(pdfPath.getBytes(), StandardCharsets.UTF_8);
+				
+				pdfPath = pdfPathToUtf8;
+				
 			} while (!pdfPath.contains(".pdf") || pdfPath == null || pdfPath.isBlank());
 
 			File file = new File(pdfPath);
@@ -50,7 +55,11 @@ public class PDFConverter {
 				System.out.print("\nInsira o caminho onde quer salvar o arquivo .txt: ");
 
 				txtPath = scanner.nextLine().trim();
+				
+				String txtPathToUtf8 = new String(txtPath.getBytes(), StandardCharsets.UTF_8);
 
+				txtPath = txtPathToUtf8;
+				
 			} while (!txtPath.contains(".txt") || txtPath == null || txtPath.isBlank());
 
 			PDFParser pdfParser = new PDFParser(new RandomAccessFile(file, "r"));
@@ -61,11 +70,11 @@ public class PDFConverter {
 
 			PDFTextStripper pdfTextStripper = new PDFLayoutTextStripper();
 
-			String string = pdfTextStripper.getText(pdDocument);
+			String textOfPdf = pdfTextStripper.getText(pdDocument);
 
 			PrintWriter out = new PrintWriter(new FileOutputStream(txtPath));
 
-			String lines[] = string.split("\\r?\\n");
+			String lines[] = textOfPdf.split("\\r?\\n");
 
 			for (String line : lines) {
 
